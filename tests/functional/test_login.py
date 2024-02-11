@@ -11,7 +11,7 @@ def test_login_fail_wrong_credentials(test_client, init_database):
     form = LoginForm(email="test@example.com", password="Test123")
 
     response = test_client.post(
-        "/login",
+        "/logi",
         data=form.data,
     )
 
