@@ -1,7 +1,7 @@
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask import Flask
 import os
 
 db = SQLAlchemy()
@@ -16,10 +16,8 @@ def create_app(config_type=None):
         config_type = os.getenv("CONFIG_TYPE", default="config.DevelopmentConfig")
 
     app.config.from_object(config_type)
-
     initialize_extensions(app)
     register_blueprints(app)
-
     return app
 
 
@@ -31,7 +29,6 @@ def initialize_extensions(app):
     from app.models.User import User
     from app.models.Book import Book 
     
-
     login_manager.login_view = "auth.login"
 
     @login_manager.user_loader

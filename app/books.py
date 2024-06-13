@@ -1,17 +1,16 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from .forms import SearchBookForm
-from .BookGoogleApi import BookGoogleApi
-from dotenv import load_dotenv
-import os
 from .models.Book import Book, Author, Category
+from .BookGoogleApi import BookGoogleApi
+from .forms import SearchBookForm
+from dotenv import load_dotenv
 from . import db
+import os
 
 project_folder = os.path.expanduser("")
 load_dotenv(os.path.join(project_folder, ".env"))
 
 books = Blueprint("books", __name__)
-
 
 @books.route("/", methods=["GET", "POST"])
 @login_required
@@ -22,11 +21,8 @@ def home():
     if request.method == "POST" and form.validate_on_submit():
         search_str = form.search.data
         google_api_url = os.getenv("GOOGLE_API_URL")
-
         book_google_api = BookGoogleApi(google_api_url)
-
         books_results = book_google_api.get_results_books_api(search_str)
-
         if books_results["status"] == "error":
             flash("An error occured", category="error")
 
@@ -39,15 +35,11 @@ def home():
 @login_required
 def details(id):
     
-    
     book = Book.query.filter_by(id=id).first()
-    
-    
     
     if not book:
         google_api_url = os.getenv("GOOGLE_API_URL")
         book_google_api = BookGoogleApi(google_api_url)
-
         result = book_google_api.get_result_book_details(id)
 
         if result["status"] == "error":
@@ -61,16 +53,7 @@ def details(id):
 @books.route("/my-books", methods=["GET"])
 @login_required
 def favorites_books():
-    
-    
-    
-    
     user_books = current_user.books_list
-    
-    
-    
-    
-    
     return render_template("books/favorites.html", books=user_books)
 
 
@@ -80,7 +63,6 @@ def remove_favorites(id):
     book = Book.query.filter_by(id=id).first()
     current_user.books_list.remove(book)
     db.session.commit()
-
     return redirect(url_for("books.favorites_books"))
 
 

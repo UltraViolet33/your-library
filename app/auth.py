@@ -1,16 +1,15 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, current_user, login_required, logout_user
+from oauthlib.oauth2 import WebApplicationClient
 from .forms import RegisterForm, LoginForm
 from sqlalchemy.exc import IntegrityError
 from .models.User import User
 from . import db
-from oauthlib.oauth2 import WebApplicationClient
 import requests
 import os
 import json
 
 auth = Blueprint("auth", __name__)
-
 
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None)
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
@@ -18,10 +17,8 @@ GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configura
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
-
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
-
 
 @auth.route("/google-login", methods=["GET"])
 def google_login():
