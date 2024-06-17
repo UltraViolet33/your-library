@@ -1,0 +1,10 @@
+{% extends 'base.html' %} {% block title %}
+  My lists
+{% endblock %} {% block content %}
+  <div class="row my-5 justify-content-center">
+    <h1 class="text-center">Posts </h1>
+    {% for post in posts %}
+        <a href="{{url_for('posts.details', id=post.id)}}"> {{post.title}}</p>
+    {% endfor %}
+  </div>
+{% endblock %}

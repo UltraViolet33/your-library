@@ -1,0 +1,8 @@
+{% extends 'base.html' %} {% block title %}
+  My lists
+{% endblock %} {% block content %}
+  <div class="row my-5 justify-content-center">
+    <h1 class="text-center">Post {{post.title}} </h1>
+    {{post.content}}
+  </div>
+{% endblock %}

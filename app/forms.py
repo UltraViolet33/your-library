@@ -36,3 +36,7 @@ class ListForm(FlaskForm):
 class BookListForm(FlaskForm):
     lists = SelectMultipleField(validators=[DataRequired()])
 
+
+class PostForm(FlaskForm):
+    title = StringField(validators=[DataRequired()])
+    content = TextAreaField(validators=[DataRequired()])
