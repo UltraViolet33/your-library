@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block title %}
+  Create Post 
+{% endblock %} {% block content %}
+  <div class="container">
+    <div class="row my-5 justify-content-center">
+      <h1 class="text-center">New post</h1>
+      <div class="col-12 col-sm-6 col-lg-4 my-3">
+        <form method="POST">
+          {{ form.csrf_token }}
+          <div class="mb-3">{{ form.title.label }}
+            {{ form.title(class = 'form-control') }}</div>
+            
+            <div class="mb-3">{{ form.content.label }}
+                {{ form.content(class = 'form-control') }}</div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

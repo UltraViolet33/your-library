@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from .models.Book import Book, Author, Category
+from .models.List import List
 from .BookGoogleApi import BookGoogleApi
-from .forms import SearchBookForm
+from .forms import SearchBookForm, BookListForm
 from dotenv import load_dotenv
 from . import db
 import os
@@ -31,12 +32,20 @@ def home():
     return render_template("books/home.html", form=form, books_results=books_results)
 
 
-@books.route("/books/details/<id>", methods=["GET"])
+@books.route("/books/details/<id>", methods=["GET", "POST"])
 @login_required
 def details(id):
     
     book = Book.query.filter_by(id=id).first()
-    
+    book_list_form = BookListForm()
+
+    book_list_form.lists.choices = [(c.id, c.name) for c in current_user.lists]
+    if request.method == "POST":
+        for list in  book_list_form.lists.data:
+            list = List.query.filter_by(id=list).first()
+            list.books.append(book)
+            db.session.commit()
+                        
     if not book:
         google_api_url = os.getenv("GOOGLE_API_URL")
         book_google_api = BookGoogleApi(google_api_url)
@@ -47,7 +56,7 @@ def details(id):
         else:
             book = result["book"]
 
-    return render_template("books/details.html", book=book)
+    return render_template("books/details.html", book=book, book_list_form=book_list_form)
 
 
 @books.route("/my-books", methods=["GET"])

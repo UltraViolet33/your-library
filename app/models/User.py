@@ -3,6 +3,8 @@ from sqlalchemy.orm import validates
 from flask_login import UserMixin
 from .. import db
 import re
+from .List import List
+from .Post import Post
 
 
 books_list_table = db.Table(
@@ -24,6 +26,9 @@ class User(db.Model, UserMixin):
     books_list = db.relationship(
         "Book", secondary=books_list_table, backref="users_books_list"
     )
+
+    lists = db.relationship("List", backref="user", passive_deletes=True)
+    posts = db.relationship("Post", backref="user", passive_deletes=True)
 
     def __init__(self, email, username, password_plaintext=None, google_id=None):
         self.email = email

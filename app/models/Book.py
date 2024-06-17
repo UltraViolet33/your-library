@@ -46,6 +46,8 @@ class Book(db.Model):
         "Category", secondary=books_categories_table, backref="books"
     )
 
+    post = db.relationship("Post", backref="book", passive_deletes=True)
+
     def __init__(
         self,
         title,
@@ -55,7 +57,6 @@ class Book(db.Model):
         google_api_id,
     ):
         self.title = title
-
         self.published_date = published_date
         self.description = description
         self.image_url = image_url

@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block title %}
+  My lists
+{% endblock %} {% block content %}
+  <div class="row my-5 justify-content-center">
+    <h1 class="text-center">Lists</h1>
+    
+
+    {% for list in lists %}
+        <a href="{{url_for('lists.books', id=list.id)}}"> {{list.name}}</p>
+    {% endfor %}
+  </div>
+{% endblock %}
