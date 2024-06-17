@@ -30,6 +30,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('books.favorites_books') }}">My books</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('lists.index') }}">My lists</a>
+              </li>
             {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
