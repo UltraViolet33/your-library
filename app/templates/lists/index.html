@@ -6,7 +6,7 @@
     
 
     {% for list in lists %}
-        <p>{{list.name}}</p>
+        <a href="{{url_for('lists.books', id=list.id)}}"> {{list.name}}</p>
     {% endfor %}
   </div>
 {% endblock %}

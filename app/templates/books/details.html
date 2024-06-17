@@ -20,12 +20,24 @@
         {% else %}
             inconnu
         {% endif %}
-        </h5>
+      </h5>
           <p>{{ book.description }}</p>
           <a href="{{url_for('books.add_favorite', id=book.id)}}" class="btn btn-primary">Add Favorite</a>
           <a href="{{ url_for('books.details', id=book.id) }}" class="btn btn-primary">Details</a>
           {% endif %}
       </div>
+  </div>
+  
+  <div class="col-12 col-sm-6 col-lg-4 my-3">
+    <form method="POST">
+      {{ book_list_form.csrf_token }}
+        <div class="mb-3">
+          {{book_list_form.lists.label}}
+          {{book_list_form.lists(class="form-control")}}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
   </div>
 </div>
 {% endblock %}

@@ -4,6 +4,7 @@ from wtforms import (
     TextAreaField,
     PasswordField,
     SelectField,
+    SelectMultipleField,
     IntegerField,
     EmailField,
 )
@@ -26,3 +27,12 @@ class LoginForm(FlaskForm):
 
 class SearchBookForm(FlaskForm):
     search = StringField("search", validators=[DataRequired()])
+
+
+class ListForm(FlaskForm):
+    name = StringField("name", validators=[DataRequired()])
+
+
+class BookListForm(FlaskForm):
+    lists = SelectMultipleField(validators=[DataRequired()])
+
