@@ -5,14 +5,13 @@
 {% block content %}
 <div class="container">
   <div class="row my-5 justify-content-center">
-      <h1 class="text-center">Book Details</h1>
+      <h1 class="text-center">{{book.title}}</h1>
   </div>
   <div class="row">
       <div class="col-12 col-md-6 my-2">
           {% if book %}
           <img src="{{ book.image_url }}" class="img-fluid mb-3" alt="Book Image" style="object-fit: cover;">
           <h5>{{ book.title }}</h5>
-          <p>{{ book.name }}</p>
           <h5>Authors:{% if book.authors %}
             {% for author in book.authors %}
                 {{ author.name if author.name else author }}{% if not loop.last %} | {% endif %}
@@ -35,7 +34,6 @@
           {{book_list_form.lists.label}}
           {{book_list_form.lists(class="form-control")}}
         </div>
-
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>

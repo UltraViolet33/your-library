@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from .models.Book import Book, Author, Category
-from .models.List import List
-from .BookGoogleApi import BookGoogleApi
 from .forms import SearchBookForm, BookListForm
+from .BookGoogleApi import BookGoogleApi
 from dotenv import load_dotenv
+from .models.List import List
 from . import db
 import os
 
@@ -35,11 +35,14 @@ def home():
 @books.route("/books/details/<id>", methods=["GET", "POST"])
 @login_required
 def details(id):
-    
     book = Book.query.filter_by(id=id).first()
     book_list_form = BookListForm()
 
     book_list_form.lists.choices = [(c.id, c.name) for c in current_user.lists]
+    preselected_list_ids = [list.id for list in book.lists]
+    book_list_form.lists.default = preselected_list_ids
+    book_list_form.process()
+
     if request.method == "POST":
         for list in  book_list_form.lists.data:
             list = List.query.filter_by(id=list).first()
